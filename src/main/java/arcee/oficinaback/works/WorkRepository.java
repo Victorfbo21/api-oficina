@@ -14,5 +14,5 @@ public interface WorkRepository extends JpaRepository<work_entity, UUID> {
 
     Optional<work_entity>findWorkByNameAndOwnerId(String name, String ownerId);
 
-    Optional<work_entity>findWorkByIdAndOwnerId(String id, String ownerId);
+    Optional<work_entity>findWorkById(String id);
 }

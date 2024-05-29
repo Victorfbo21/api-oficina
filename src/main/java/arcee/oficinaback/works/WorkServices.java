@@ -71,9 +71,9 @@ public class WorkServices {
 
     public ResponseEntity<AppResponse> deleteWork(String workId, String ownerId){
 
-        Optional<work_entity> work = _workRepository.findWorkByIdAndOwnerId(workId,ownerId);
+        Optional<work_entity> work = _workRepository.findWorkById(workId);
 
-        if(work.isEmpty()){
+        if(work.isEmpty() || work.get().getDeleted()){
             return ResponseEntity.status(400)
                     .body(new AppResponse(
                             null,
@@ -85,7 +85,18 @@ public class WorkServices {
         var newWork = work.get();
 
         newWork.setDeleted(true);
+        newWork.setActive(false);
 
+        _workRepository.save(newWork);
+
+        return ResponseEntity.status(200)
+                .body(new AppResponse(
+                        null,
+                        false,
+                        200,
+                        "Serviço Deletado com Sucesso!"));
 
     }
+
+
 }
