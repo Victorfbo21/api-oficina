@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Recuperação de Senha</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .code {
+            font-size: 18px;
+            font-weight: bold;
+            color: #3366cc;
+        }
+        .footer {
+            margin-top: 20px;
+            text-align: center;
+            color: #888;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <h2>Recuperação de Senha</h2>
+    </div>
+    <p>Prezado(a),</p>
+    <p>Segue o código para redefinição de Senha:</p>
+    <p class="code">Código: <span th:text="${code}">#{code}</span></p>
+    <p>Equipe Oficina</p>
+    <div class="footer">
+        <p>Este é um e-mail automático. Por favor, não responda a este e-mail.</p>
+    </div>
+</div>
+</body>
+</html>
