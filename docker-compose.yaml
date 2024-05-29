@@ -8,15 +8,3 @@ services:
       - "8080:8080"
     volumes:
       - .:/app
-
-  mysql:
-    image: mysql:latest
-    ports:
-    - "3307:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    volumes:
-    - mysql-data:/var/lib/mysql
-
-volumes:
-  mysql-data:
