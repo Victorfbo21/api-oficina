@@ -26,6 +26,8 @@ public class WorkController {
         return _workServices.listWorks(token.getName());
     }
 
+
+
     @PostMapping("/delete")
     public ResponseEntity<AppResponse> deleteWork(@RequestBody JsonNode requestBody, JwtAuthenticationToken token){
         String workId = requestBody.get("workId").asText();
