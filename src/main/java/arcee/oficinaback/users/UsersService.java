@@ -9,6 +9,7 @@ import arcee.oficinaback.password_recovery.PasswordRecoveryRepository;
 import arcee.oficinaback.users.dtos.CreateUserDto;
 import arcee.oficinaback.users.dtos.UpdatePasswordDto;
 import arcee.oficinaback.users.dtos.UploadProfileImageDto;
+import arcee.oficinaback.users.dtos.meResponseDto;
 import arcee.oficinaback.users.records.UpdatePasswordRecord;
 import arcee.oficinaback.users.records.UploadProfileImageResponse;
 import org.springframework.beans.BeanUtils;
@@ -62,18 +63,26 @@ public class UsersService {
     public ResponseEntity<AppResponse> me(String userId){
         Optional<users_entity> user = _usersRepository.findById(userId);
 
-        return user.map(usersEntity -> ResponseEntity.status(200)
-                .body(new AppResponse(usersEntity,
+        if(user.isEmpty()){
+            return ResponseEntity.status(400)
+                    .body(new AppResponse(
+                            null,
+                            true,
+                            400,
+                            "Usuário Não Encontrado!"
+                    ));
+        }
+
+        meResponseDto userResponse = new meResponseDto();
+        BeanUtils.copyProperties(user.get(),userResponse);
+
+        return ResponseEntity.status(200)
+                .body(new AppResponse(
+                        userResponse,
                         false,
                         200,
-                        "Usuário Encontrado com Sucesso!")))
-                .orElseGet(() -> ResponseEntity.status(400)
-                .body(new AppResponse(
-                        null,
-                        true,
-                        400,
-                        "Erro ao Encontrar Usuário")));
-
+                        "Usuário Encontrado com Sucesso!"
+                ));
     }
 
 
