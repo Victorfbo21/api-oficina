@@ -59,6 +59,23 @@ public class UsersService {
         return _usersRepository.findByIsDeletedFalse();
     }
 
+    public ResponseEntity<AppResponse> me(String userId){
+        Optional<users_entity> user = _usersRepository.findById(userId);
+
+        return user.map(usersEntity -> ResponseEntity.status(200)
+                .body(new AppResponse(usersEntity,
+                        false,
+                        200,
+                        "Usuário Encontrado com Sucesso!")))
+                .orElseGet(() -> ResponseEntity.status(400)
+                .body(new AppResponse(
+                        null,
+                        true,
+                        400,
+                        "Erro ao Encontrar Usuário")));
+
+    }
+
 
     public ResponseEntity<AppResponse> createUser(CreateUserDto user){
         var findByEmail = _usersRepository.findByEmail(user.getEmail());
@@ -89,8 +106,14 @@ public class UsersService {
         Optional<users_entity> user = _usersRepository.findById(toDeleteId);
 
         if(user.isEmpty()){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.status(400)
+                    .body(new AppResponse(
+                            null,
+                            true,
+                            400,
+                            "Usuário Não Encontrado"));
         }
+
         users_entity newUser = user.get();
 
         var now  = Instant.now();
@@ -101,7 +124,8 @@ public class UsersService {
 
         _usersRepository.save(newUser);
 
-        return ResponseEntity.status(200).body(new AppResponse(
+        return ResponseEntity.status(200)
+                .body(new AppResponse(
                 null,
                 false,
                 200,
@@ -218,7 +242,6 @@ public class UsersService {
                         200,
                         "Upload com Sucesso!"));
     }
-
     public ResponseEntity<AppResponse> updatePassword(UpdatePasswordDto updatePasswordData){
         System.out.print(updatePasswordData.getCode());
         System.out.print( updatePasswordData.getEmail());

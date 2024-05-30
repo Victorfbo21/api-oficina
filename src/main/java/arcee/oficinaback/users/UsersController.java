@@ -30,6 +30,11 @@ public class UsersController {
         return _usersService.getAllUsers();
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<AppResponse> me( JwtAuthenticationToken token){
+            return _usersService.me(token.getName());
+    }
+
     @PostMapping("/create")
     public ResponseEntity<AppResponse> createUser(@RequestBody CreateUserDto user){
         return _usersService.createUser(user);

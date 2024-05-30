@@ -44,13 +44,14 @@ public class FileBrowserService {
 
         String filename = file.getFilename();
 
-        String path = String.format(fileBrowserConfig.getBaseUploadPath(), filename.trim());
-        String publicPath = String.format(fileBrowserConfig.getShareUploadPublic(), filename.trim());
-
+        String path = fileBrowserConfig.getBaseUploadPath() + "/" +  filename.trim() + "?override=true";
+        String publicPath = fileBrowserConfig.getShareUploadPublic() + "/" +  filename.trim();
 
         String createBaseFileResponse = this.CreateBaseFile(token,file.getFileType(), file.getData(),path);
 
         CreateFileResponse createPublicFileResponse = this.CreatePublicFile(token,publicPath);
+
+        System.out.println(createPublicFileResponse);
 
         return new UploadProfileImageResponse(
                 fileBrowserConfig.getSharedUrl()
