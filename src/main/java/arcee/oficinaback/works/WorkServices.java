@@ -98,5 +98,63 @@ public class WorkServices {
 
     }
 
+    public ResponseEntity<AppResponse> disableWork(String workId){
 
+        Optional<work_entity> work = _workRepository.findWorkById(workId);
+
+        if(work.isEmpty()){
+            return ResponseEntity.status(400)
+                    .body(new AppResponse(
+                            null,
+                            true,
+                            400,
+                            "Serviço Não encontrado!"
+
+                            ));
+        }
+
+        var newWork = work.get();
+
+        newWork.setActive(false);
+
+
+        _workRepository.save(newWork);
+
+        return ResponseEntity.status(200)
+                .body(new AppResponse(
+                        null,
+                        false,
+                        200,
+                        "Serviço Desabilitado com Sucesso!"));
+
+    }
+
+    public ResponseEntity<AppResponse> activateWork(String workId){
+        Optional<work_entity> work = _workRepository.findWorkById(workId);
+
+        if(work.isEmpty()){
+            return ResponseEntity.status(400)
+                    .body(new AppResponse(
+                            null,
+                            true,
+                            400,
+                            "Serviço Não Encontrado"
+                    ));
+        }
+
+        var newWork = work.get();
+
+        newWork.setActive(true);
+
+        _workRepository.save(newWork);
+
+
+        return ResponseEntity.status(200)
+                .body(new AppResponse(
+                        null,
+                        false,
+                        200,
+                        "Serviço Ativado com Sucesso!"
+                ));
+    }
 }
